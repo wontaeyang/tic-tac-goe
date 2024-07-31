@@ -75,6 +75,8 @@ func main() {
 
 		winner := findWinner(board)
 		if winner != empty {
+			// draw the last move before ending the game
+			printBoard(board, cursorX, cursorY)
 			fmt.Printf("We have a winner! %s wins!\n", moveDisplayValue(winner))
 			break
 		}
@@ -171,8 +173,6 @@ func moveDisplayValue(m move) string {
 }
 
 func findWinner(board [][]move) move {
-	size := len(board)
-
 	// scan rows and columns
 	for i, row := range board {
 		winner := findRowWinner(row)
@@ -187,11 +187,10 @@ func findWinner(board [][]move) move {
 
 	}
 
-	if size%2 != 0 {
-		winner := findDiagonalWinner(board)
-		if winner != empty {
-			return winner
-		}
+	// scan diagonal directions
+	winner := findDiagonalWinner(board)
+	if winner != empty {
+		return winner
 	}
 
 	return empty
